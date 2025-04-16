@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import {Routes, Route} from "react-router-dom"
 
 function App() {
   const [count, setCount] = useState(0)
@@ -9,6 +10,7 @@ function App() {
   const [pickups, setPickups] = useState(null)
   const [users, setUsers] = useState(null)
 const [products, setProducts] = useState(null)
+
 
 
 useEffect(() => {
@@ -71,6 +73,12 @@ useEffect(() => {
 
   return (
     <>
+
+      <div><h1>Beacon House Thrift Shop Pick Ups & Deliveries</h1></div>
+      <div><button>Log In</button></div>
+
+
+
      <div>
         
         <h1>Products</h1>

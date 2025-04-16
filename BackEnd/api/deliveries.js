@@ -3,6 +3,7 @@ module.exports = router;
 
 const prisma = require("../prisma");
 
+//get list of all deliveries
 router.get("/", async (req, res, next) => {
     try {
         const deliveries = await prisma.delivery.findMany()
@@ -11,3 +12,4 @@ router.get("/", async (req, res, next) => {
         next();
     }
 })
+

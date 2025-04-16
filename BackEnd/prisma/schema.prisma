@@ -35,7 +35,7 @@ model Product {
   imageUrl    String?
   pickupId    Int?
   deliveryId  Int?
-  pickup      Pickup?  @relation(fields: [pickupId], references: [id])
+  pickup      Pickup?  @relation(fields: [pickupId], references: [id], onDelete: Cascade)
   delivery    Delivery? @relation(fields: [deliveryId], references: [id])
 
   @@index([pickupId])
