@@ -36,7 +36,7 @@ model Product {
   pickupId    Int?
   deliveryId  Int?
   pickup      Pickup?  @relation(fields: [pickupId], references: [id], onDelete: Cascade)
-  delivery    Delivery? @relation(fields: [deliveryId], references: [id])
+  delivery    Delivery? @relation(fields: [deliveryId], references: [id], onDelete: Cascade)
 
   @@index([pickupId])
   @@index([deliveryId])

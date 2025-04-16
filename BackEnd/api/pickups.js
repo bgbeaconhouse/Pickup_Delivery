@@ -30,8 +30,20 @@ router.get("/", async (req, res, next) => {
     try {
       const id = +req.params.id;
   
-      const pickup = await prisma.pickup.findUnique({ where: { id } });
-  
+      const pickup = await prisma.pickup.findUnique(
+        {
+          where: { id },
+          include: {
+            products: {
+              select: {
+                title: true,
+                description: true,
+                imageUrl: true,
+                id: true,
+              },
+            },
+          },
+        });
       if (!pickup) {
         return next({
           status: 404,
@@ -44,12 +56,6 @@ router.get("/", async (req, res, next) => {
       next();
     }
   });
-
-
-
-
-
-
 
 
 //Create new pickup
