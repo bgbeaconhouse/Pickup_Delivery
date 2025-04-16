@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String   // Store the hashed password, not the plain text!
+  role      Role     @default(EMPLOYEE)
+  pickups   Pickup[]
+  deliveries Delivery[]
+}
+
+enum Role {
+  EMPLOYEE
+  // You can add other roles here, like ADMIN, if needed
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  createdAt   DateTime @default(now())
+  imageUrl    String?
+  pickupId    Int?
+  deliveryId  Int?
+  pickup      Pickup?  @relation(fields: [pickupId], references: [id])
+  delivery    Delivery? @relation(fields: [deliveryId], references: [id])
+
+  @@index([pickupId])
+  @@index([deliveryId])
+}
+
+model Pickup {
+  id                Int      @id @default(autoincrement())
+  pickupDate        DateTime
+  customerName      String
+  customerPhone     String
+  additionalNotes   String?
+  products          Product[]
+  userId            Int
+  user             User      @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model Delivery {
+  id                Int      @id @default(autoincrement())
+  deliveryDate      DateTime
+  customerName      String
+  customerPhone     String
+  customerAddress   String
+  additionalNotes   String?
+  products          Product[]
+  userId            Int
+  user             User      @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
