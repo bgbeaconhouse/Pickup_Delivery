@@ -1,20 +1,39 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import {Routes, Route} from "react-router-dom"
-import Home from './components/Home'
-import Login from './components/Login'
-import ViewPickups from './components/ViewPickups'
-import ViewDeliveries from './components/ViewDeliveries'
+import { useState, useEffect } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import './App.css';
+import {
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
+import Home from './components/Home';
+import Login from './components/Login';
+import ViewPickups from './components/ViewPickups';
+import ViewDeliveries from './components/ViewDeliveries';
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [deliveries, setDeliveries] = useState(null)
-  const [pickups, setPickups] = useState(null)
-  const [users, setUsers] = useState(null)
-const [products, setProducts] = useState(null)
-const [token, setToken] = useState(null)
+  const [count, setCount] = useState(0);
+  const [deliveries, setDeliveries] = useState(null);
+  const [pickups, setPickups] = useState(null);
+  const [users, setUsers] = useState(null);
+  const [products, setProducts] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem('token')); // Initialize token from localStorage
+
+  // Function to handle setting the token and updating localStorage
+  const handleSetToken = (newToken) => {
+    setToken(newToken);
+    if (newToken) {
+      localStorage.setItem('token', newToken);
+    } else {
+      localStorage.removeItem('token');
+    }
+  };
+
+  // Custom ProtectedRoute component
+  const ProtectedRoute = ({ children }) => {
+    return token ? children : <Navigate to="/" />;
+  };
 
 
 useEffect(() => {
@@ -80,12 +99,38 @@ useEffect(() => {
   return (
     <>
 
-    <Routes>
-    <Route path="/" element= {<Login setToken={setToken}/>}/>
-      <Route path="/home" element= {<Home/>}/>
-      <Route path="/viewpickups" element= {<ViewPickups/>}/>
-      <Route path="/viewdeliveries" element= {<ViewDeliveries/>}/>
-    </Routes>
+
+      <Routes>
+        <Route
+          path="/"
+          element={<Login setToken={handleSetToken} />}
+        />
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/viewpickups"
+          element={
+            <ProtectedRoute>
+              <ViewPickups />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/viewdeliveries"
+          element={
+            <ProtectedRoute>
+              <ViewDeliveries />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+ 
     
    
       {/* <div><h1>Beacon House Thrift Shop Pick Ups & Deliveries</h1></div>

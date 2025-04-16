@@ -19,7 +19,7 @@ const Login = ({setToken}) => {
             const result = await response.json()
             
             setToken(result);
-            localStorage.setItem("token", result);
+            
             
             
                 navigate("/home")
