@@ -3,6 +3,10 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import {Routes, Route} from "react-router-dom"
+import Home from './components/Home'
+import Login from './components/Login'
+import ViewPickups from './components/ViewPickups'
+import ViewDeliveries from './components/ViewDeliveries'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -10,7 +14,7 @@ function App() {
   const [pickups, setPickups] = useState(null)
   const [users, setUsers] = useState(null)
 const [products, setProducts] = useState(null)
-
+const [token, setToken] = useState(null)
 
 
 useEffect(() => {
@@ -71,10 +75,20 @@ useEffect(() => {
 
 
 
+
+
   return (
     <>
 
-      <div><h1>Beacon House Thrift Shop Pick Ups & Deliveries</h1></div>
+    <Routes>
+    <Route path="/" element= {<Login setToken={setToken}/>}/>
+      <Route path="/home" element= {<Home/>}/>
+      <Route path="/viewpickups" element= {<ViewPickups/>}/>
+      <Route path="/viewdeliveries" element= {<ViewDeliveries/>}/>
+    </Routes>
+    
+   
+      {/* <div><h1>Beacon House Thrift Shop Pick Ups & Deliveries</h1></div>
       <div><button>Log In</button></div>
 
 
@@ -119,7 +133,7 @@ useEffect(() => {
               <li key={delivery.id}>{delivery.customerName} {delivery.deliveryDate}</li>
             ))}
           </ul>
-        </div>
+        </div> */}
     </>
   )
 }
