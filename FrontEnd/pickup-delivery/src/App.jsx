@@ -89,13 +89,20 @@ useEffect(() => {
           </ul>
         </div>
         <div>
-          <h1>Pick Ups</h1>
-          <ul>
-            {pickups && pickups.map(pickup => (
-              <li key={pickup.id}>{pickup.customerName} {pickup.customerPhone}</li>
-            ))}
-          </ul>
-        </div>
+  <h1>Pick Ups</h1>
+  <ul>
+    {pickups && pickups.map(pickup => (
+      <li key={pickup.id}>
+        {pickup.pickupDate} {pickup.customerName} {pickup.customerPhone}
+        {pickup.products && pickup.products.map(product => (
+          <span key={product.id}>
+            {product.title} {product.description && `- ${product.description}`}
+          </span>
+        ))}
+      </li>
+    ))}
+  </ul>
+</div>
     
         <div>
           <h1>Deliveries</h1>
